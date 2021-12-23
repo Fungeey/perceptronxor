@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="main">
+        <div class = "titleText">Boolean Algebra Neural Network
+            <div class = "highlight"></div>
+        </div>
+
+        <h5>Aaron Lee, 2021</h5>
+        <br>
+        <h1>The Perceptron</h1>
+        <p>This is a neural network that learns to implement a boolean algebra expression. 
+            It uses a truth table as training data. After it has trained, it will be able to 
+            generalize the data and predict the right answer.
+        </p>
+
+        <br>
+        <!-- <div id="truthTableContainer"></div> -->
+        <div class = "flexRow">
+            <table class = "truthtable">
+                <tr>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>f</th>
+                    <th>NN</th>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><button class = "tableButton" onclick="toggleValue(this, 0)">0</td>
+                    <td id = "nn0">...</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td><div class = "tableDot">1</div></td>
+                    <td><button class = "tableButton" onclick = "toggleValue(this, 1)"><div class = 'buttonDot'>1</div></td>
+                    <td id = "nn1">...</td>
+                </tr>
+                <tr>
+                    <td><div class = "tableDot">1</div></td>
+                    <td>0</td>
+                    <td><button class = "tableButton" onclick="toggleValue(this, 2)"><div class = 'buttonDot'>1</div></button></td>
+                    <td id = "nn2">...</td>
+                </tr>
+                <tr>
+                    <td><div class = "tableDot">1</div></td>
+                    <td><div class = "tableDot">1</div></td>
+                    <td><button class = "tableButton" onclick="toggleValue(this, 3)">0</button></td>
+                    <td id = "nn3">...</td>
+                </tr>
+            </table>
+
+            <div>
+                <p style = "width: 300px; text-align: center">
+                    Click on the outputs in the 'f' column to change them.
+                </p>
+                <br>
+                <button id = "startNN" onclick = "startTrain()">Start!</button>
+                <br><br><br>
+            </div>
+        </div>
+        <br>
+        <h1>Code</h1>
+        <p>Here are the code files used in this project. You can also view the github repository here.</p>
+    </div>
+</body>
+<script src = "main.js"></script>
+<script src = "perceptron.js"></script>
+</html>
