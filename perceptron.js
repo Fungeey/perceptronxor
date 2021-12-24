@@ -1,4 +1,4 @@
-const lr = 0.2;
+const lr = 0.1;
 
 function rand(){
     return Math.floor(Math.random() * 10)/10;
@@ -24,35 +24,47 @@ class Neuron{
         return this.sigmoid(x) * (1 - this.sigmoid(x));
     }
 
-    // delsigmoid(x){
-    //     return Math.exp(-x)/Math.pow(Math.exp(-x) + 1, 2);
-    // }
-
     evaluate(prevLayerActivations){
         this.activation = 0;
         prevLayerActivations.forEach((a, i) => {
             this.activation += a * this.weights[i];
         });
         this.z = this.activation + this.bias;
-        this.activation = this.sigmoid(this.activation + this.bias);
+        this.activation = this.sigmoid(this.z);
         return this.activation;
     }
 
-    adjust(prevLayerActivations, target){
-        // Adjust weights with delta w.
-        for(var i = 0; i < this.weights.length; i++){
-            var deltaW = prevLayerActivations[i] * this.delsigmoid(this.z) * 2 * (this.activation - target);
-            this.weights[i] -= lr * deltaW;
-        }
+    // adjust(prevLayerActivations, target){
+    //     // Adjust weights with delta w.
+    //     for(var i = 0; i < this.weights.length; i++){
+    //         var deltaW = prevLayerActivations[i] * this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //         this.weights[i] -= lr * deltaW;
+    //     }
 
-        // Adjust bias
-        var deltaB = this.delsigmoid(this.z) * 2 * (this.activation - target);
-        this.bias -= lr * deltaB;
+    //     // Adjust bias
+    //     var deltaB = this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //     this.bias -= lr * deltaB;
         
-        // calculate the desired activation for this neuron.
-        var targetActivation = this.delsigmoid(this.z) * 2 * (this.activation - target);
-        return targetActivation;
-    }
+    //     // calculate the desired activation for this neuron.
+    //     var targetActivation = this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //     return targetActivation;
+    // }
+
+    // adjustBad(prevLayerActivations, target){
+    //     // Adjust weights with delta w.
+    //     for(var i = 0; i < this.weights.length; i++){
+    //         var deltaW = prevLayerActivations[i] * this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //         this.weights[i] -= lr * deltaW;
+    //     }
+
+    //     // Adjust bias
+    //     var deltaB = this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //     this.bias -= lr * deltaB;
+        
+    //     // calculate the desired activation for this neuron.
+    //     var targetActivation = this.delsigmoid(this.z) * 2 * (this.activation - target);
+    //     return targetActivation;
+    // }
 }
 
 class Layer{
@@ -73,15 +85,25 @@ class Layer{
         });
     }
 
-    backProp(prevLayerActivations, target){
-        var targetActivations = [];
-        this.neurons.forEach(n => {
-            var asdf = n.adjust(prevLayerActivations, target);
-            targetActivations.push(asdf);
-        });
+    // backProp(prevLayerActivations, targets){
+    //     // calculate error of this layer based upon targets.
+    //     var errors = [];
+    //     this.neurons.forEach((n, i) => {
+    //         errors.push(n - targets[i]);
+    //     });
 
-        return targetActivations;
-    }
+    //     // adjust weights and biases.
+
+    //     return errors;
+
+    //     var targetActivations = [];
+    //     this.neurons.forEach(n => {
+    //         var asdf = n.adjust(prevLayerActivations, target);
+    //         targetActivations.push(asdf);
+    //     });
+
+    //     return targetActivations;
+    // }
 }
 
 class Perceptron{
@@ -94,29 +116,83 @@ class Perceptron{
     }
 
     cost(output, t){
-        return Math.pow(output - this.target[t], 2);
+        return output - this.target[t];
     }
 
     rnd(x){
         return Math.round(x * 1000)/1000;
     }
 
-    train(progress){
-        var outputs = [];
+    train(){
         for(var i = 0; i < 10000; i++){
             for(var t = 0; t < 4; t++){
                 this.hiddenLayer.evaluate(this.input[t]);
                 this.outputLayer.evaluate(this.hiddenLayer.activations);
                 this.backProp(t);
-                outputs[t] = this.rnd(this.outputLayer.activations[0]);
             }
-            progress(outputs);
         }
     }
 
+    dsigmoid(x){
+        // delsigmoid = sigmoid(x) * (1 - sigmoid(x))
+        // Since the values we have were already run through sigmoid,
+        // we can just plug in x.
+        return x * (1 - x);
+    }
+
     backProp(testCase){
-        var outputLayerTargets = this.outputLayer.backProp(this.hiddenLayer.activations, this.target[testCase]);
-        this.hiddenLayer.backProp(this.input[testCase], outputLayerTargets);
+
+        // ------ Output Layer ------
+
+        // There is only one error value, since there is only one output node.
+        {
+            var output_error = this.outputLayer.activations[0] - this.target[testCase];
+
+            for(var i = 0; i < this.outputLayer.neurons[0].weights.length; i++){
+                // Adjust weights: ∂c/∂w = ∂z/∂w * ∂a/∂z * ∂c/∂a
+                    //z = wa+b, therefore ∂z/∂w = a
+                    //a = sigmoid(z), therefore ∂a/∂z = dsigmoid(a)
+                    //c = (a-y)^2, therefore ∂c/∂a = 2(a-y) 
+                var deltaW = this.hiddenLayer.activations[i] * this.dsigmoid(this.outputLayer.activations[0]) * output_error;
+                this.outputLayer.neurons[0].weights[i] -= lr * deltaW;
+            }
+            // Adjust bias: ∂c/∂b = ∂z/∂b * ∂a/∂z * ∂c/∂a
+                //z = wa+b, therefore ∂z/∂b = 1
+                //a = sigmoid(z), therefore ∂a/∂z = dsigmoid(a)
+                //c = (a-y)^2, therefore ∂c/∂a = 2(a-y)
+            var deltaB = 1 * this.dsigmoid(this.outputLayer.activations[0]) * output_error;
+            this.outputLayer.neurons[0].bias -= lr * deltaB;
+        }
+
+        // ------ Hidden Layer ------
+        {
+            var hidden_errors = [];
+            for(var w = 0; w < this.outputLayer.neurons[0].weights.length; w++){
+                hidden_errors.push(this.outputLayer.neurons[0].weights[w] * output_error);
+            }
+            // var  = [
+            //     this.outputLayer.neurons[0].weights[0] * output_error,
+            //     this.outputLayer.neurons[0].weights[1] * output_error
+            // ];
+
+            for(var w = 0; w < this.hiddenLayer.neurons.length; w++){
+                for(var i = 0; i < this.hiddenLayer.neurons[w].weights.length; i++){
+                    // Adjust weights: ∂c/∂w = ∂z/∂w * ∂a/∂z * ∂c/∂a
+                        //z = wa+b, therefore ∂z/∂w = a
+                        //a = sigmoid(z), therefore ∂a/∂z = dsigmoid(a)
+                        //c = (a-y)^2, therefore ∂c/∂a = 2(a-y)
+                    var deltaW = this.input[testCase][i] * this.dsigmoid(this.hiddenLayer.activations[i]) * hidden_errors[i];
+                    this.hiddenLayer.neurons[w].weights[i] -= lr * deltaW;
+                }
+
+                // Adjust bias: ∂c/∂b = ∂z/∂b * ∂a/∂z * ∂c/∂a
+                    //z = wa+b, therefore ∂z/∂b = 1
+                    //a = sigmoid(z), therefore ∂a/∂z = dsigmoid(a)
+                    //c = (a-y)^2, therefore ∂c/∂a = 2(a-y)
+                var deltaB = 1 * this.dsigmoid(this.hiddenLayer.activations[w]) * hidden_errors[w];
+                this.hiddenLayer.neurons[w].bias -= lr * deltaB;
+            }
+        }
     }
 
     test(){
@@ -144,10 +220,11 @@ var targetXOR = [0, 1, 1, 0];
 var targetOR = [0, 1, 1, 1];
 var targetAND = [0, 0, 0, 1];
 
-function startPerceptron(targetOutput, progress){
+function startPerceptron(targetOutput){
     var p = new Perceptron(input, targetOutput);
-    p.train(progress);
+    p.train();
     return p.test();
 }
 
-//startNN(targetXOR);
+var result = startPerceptron(targetXOR);
+console.log(result);

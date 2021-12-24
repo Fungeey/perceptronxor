@@ -1,5 +1,8 @@
 'use strict';
 
+const grey = "#f2f2f2";
+const green = "#A9ED9D";
+
 var data = [
     [0],
     [1],
@@ -7,13 +10,25 @@ var data = [
     [0]
 ];
 
+var buttons = [];
+for(var i = 0; i < 4; i++){
+    var button = document.getElementById("b" + i);
+
+    if(button.innerText === '0')
+        button.firstChild.style.background = grey;
+
+    buttons.push(row);
+}
+
 function toggleValue(button, num){
-    if(data[num] === 1){
+    if(data[num] == 1){
         data[num] = 0;
-        button.innerHTML = 0;
+        button.firstChild.innerText = 0;
+        button.firstChild.style.background = grey;
     }else{
         data[num] = 1;
-        button.innerHTML = "<div class = 'buttonDot'>1</div>";
+        button.firstChild.innerText = 1;
+        button.firstChild.style.background = green;
     }
 }
 
@@ -21,7 +36,6 @@ var outputs = [];
 for(var i = 0; i < 4; i++){
     var row = document.getElementById("nn" + i);
     outputs.push(row);
-    console.log(row);
 }
 
 function startTrain(){
@@ -29,7 +43,7 @@ function startTrain(){
     console.log("done");
 
     outputs.forEach((o, i) => {
-        o.innerHTML = results[i][0];
+        o.innerText = results[i][0];
     });
 }
 
