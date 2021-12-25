@@ -38,15 +38,39 @@ for(var i = 0; i < 4; i++){
     outputs.push(row);
 }
 
+var runStats = document.getElementById("runStats");
+
 function startTrain(){
-    var results = startPerceptron(data, progress);
-    console.log("done");
+    var start = Date.now();
+
+    var results = startPerceptron(data);
+    console.log(results);
 
     outputs.forEach((o, i) => {
-        o.innerText = results[i][0];
+        o.innerText = results[i];
+        o.style.opacity = 0.5;
     });
+     
+    var end = Date.now();
+    runStats.innerText = "5000 iterations in " + (end - start) + " ms";
+
+    startFade();
 }
 
-function progress(results){
-    
+var opacity = 0;
+function startFade(){
+    opacity = 0;
+    fadeIn();
 }
+
+function fadeIn() {
+    if (opacity < 1) {
+       opacity += .1;
+       setTimeout(function(){fadeIn()},10);
+    }
+
+    outputs.forEach(o => {
+        o.style.opacity = opacity;
+    });
+    runStats.style.opacity = opacity/2;
+ }

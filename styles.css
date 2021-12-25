@@ -15,7 +15,9 @@
 
 *{
     font-family: 'Varela Round', sans-serif;
+    /* font-family: 'Bitter', serif;; */
     /* font-family: 'Cabin', sans-serif; */
+    /* font-family: 'Overpass', sans-serif; */
     font-size: 17px;
     color: var(--darkgrey);
 }
@@ -39,42 +41,62 @@ h1{
 
 #main{
     margin: auto;
-    padding: 30px;
+    padding: 30px 2rem;
     max-width: 650px;
     background: var(--grey);
-    border-radius: var(--corner);
+    border-bottom-left-radius: var(--corner);
+    border-bottom-right-radius: var(--corner);
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-start;
-    padding-left: 3em;
-    padding-right: 3em;
     box-shadow: 5px 5px 10px var(--darkergrey);
+}
+
+@media only screen and (max-width: 550px) {
+    body{
+        padding: 0%;
+        margin:0;
+    }
+    #main {
+        padding: 30px 1rem;
+    }
+    .titleText{
+        padding: 30px 1rem;
+    }
+ }
+
+hr{
+    margin:0px;
+    border: 1px solid var(--darkgrey);
+    border-radius: 1px;
+    opacity: 0.7;
 }
 
 .titleText{
     position: relative;
     font-size: 40px;
     font-weight: bold;
-    z-index: 10;
+    margin:auto;
+    max-width: 650px;
+    padding:30px 2rem;
+    background: var(--green);
+    border-top-left-radius: var(--corner);
+    border-top-right-radius: var(--corner);
+    box-shadow: 5px 5px 10px var(--darkergrey);
 }
 
-.highlight{
-    width: 101.5%;
-    left: -0.15em;
-    height: 1.4em;
-    position: absolute;
-    bottom: 0px;
-    background: var(--green);
-    border-radius: 1.5em;
-    z-index: -1;
+#subtitle{
+    margin-top:10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 h5{
     padding: 0;
     margin: 0px;
-    margin-top:10px;
     font-weight: initial;
     font-size:medium;
 }
@@ -82,7 +104,7 @@ h5{
 .flexRow{
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
     gap:30px;
@@ -178,9 +200,10 @@ th, td{
 
 #startNN{
     margin:auto;
-    width: 100%;
+    width: 50%;
     height:1.7em;
     border: 0px;
+    display: block;
     background: var(--darkergrey);
     border-radius: var(--corner);
 }
@@ -188,4 +211,31 @@ th, td{
 #startNN:hover{
     background: var(--green);
     box-shadow: 5px 5px 10px var(--darkergrey);
+}
+
+li{
+    line-height: 150%;
+}
+
+
+u, .imgSource{
+    margin:auto;
+    text-align: center;
+    margin-top: 7px;
+    color: var(--darkerergrey);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+u{
+    text-decoration: underline;
+}
+
+.focusp{
+    margin:auto;
+    background: var(--green);
+    border-radius: var(--corner);
+    padding: 0 0.5em;
+    margin:0.5em auto 0.5em;
+    
 }
