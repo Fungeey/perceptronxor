@@ -1,5 +1,6 @@
 :root {
-    --green: #A9ED9D;
+    --green: #9dda92;
+    /* --green2: #A9ED9D; */
     --grey: #f2f2f2;
     --darkergrey: #e1e1e1;
     --darkerergrey: #b3b1b1;
@@ -14,8 +15,8 @@
 }
 
 *{
-    font-family: 'Varela Round', sans-serif;
-    /* font-family: 'Bitter', serif;; */
+    /* font-family: 'Varela Round', sans-serif; */
+    font-family: 'Bitter', serif;;
     /* font-family: 'Cabin', sans-serif; */
     /* font-family: 'Overpass', sans-serif; */
     font-size: 17px;
@@ -24,6 +25,7 @@
 
 body{
     padding: 3%;
+    padding-top: 4rem;
 }
 
 p{
@@ -34,13 +36,30 @@ p{
 
 h1{
     margin:0px;
+    padding:0px;
     font-weight: 700;
     font-size: 20px;
     margin-bottom: 5px;
+    position:relative;
+}
+
+h1:hover{
+    text-decoration: underline;
+}
+
+.hDot{
+    width:2rem;
+    height:2rem;
+    position:absolute;
+    left:-5rem; /* -2rem for main, -2 for width, -1 for spacing*/
+    top: -5px;
+    border-radius: 3rem;
+    background-color: var(--green);
 }
 
 #main{
     margin: auto;
+    position:relative;
     padding: 30px 2rem;
     max-width: 650px;
     background: var(--grey);
@@ -99,6 +118,15 @@ h5{
     margin: 0px;
     font-weight: initial;
     font-size:medium;
+}
+
+#leftfloater{
+    width:10rem;
+    padding: 0.5rem;
+    position: fixed;
+    font-size: 0.8rem;
+    background: var(--grey);
+    border-radius: var(--corner);
 }
 
 .flexRow{
@@ -194,6 +222,10 @@ th, td{
     border-radius: 0px;
 }
 
+/* :focus{
+    outline: solid var(--darkgrey);
+} */
+
 .tableButton:hover{
     text-decoration: underline;
 }
@@ -213,8 +245,13 @@ th, td{
     box-shadow: 5px 5px 10px var(--darkergrey);
 }
 
+#errorchart{
+    width: 30rem;
+    margin:auto;
+}
+
 li{
-    line-height: 150%;
+    line-height: 160%;
 }
 
 
@@ -237,5 +274,4 @@ u{
     border-radius: var(--corner);
     padding: 0 0.5em;
     margin:0.5em auto 0.5em;
-    
 }

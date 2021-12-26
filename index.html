@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bitter&family=Overpass&family=Cabin:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
 </head>
 <body>
-    <div class = "titleText">Boolean Algebra Neural Network
+
+    <!-- <div id = "leftfloater">
+        <b>Aaron Lee</b> <br> is adding unnecessary features to this website.
+    </div> -->
+    <div class = "titleText">      
+        Boolean Algebra Neural Network
+
         <div id = "subtitle">
             <h5>Aaron Lee, 2021 </h5>
             <a href = "https://github.com/Fungeey/perceptronxor"><img src = "img/git.png" style = "width:1rem;height:1rem;"></a>
         </div>
     </div>
     <div id="main">
-        
         <h1>Interactive Simulation</h1>
         <p>This is a neural network that uses a truth table as training data. After it has trained, it will converge on an 
             algorithm that will accuratly implement the desired boolean algebra function.
@@ -67,6 +75,12 @@
             </div>
         </div>
 
+        <br><br>
+
+        <canvas id="errorchart"></canvas>
+
+        <br><br>
+        <p>After clicking start, the network will output values that (should) closely match the desired 'f' column.</p>
         <br><br>
 
         <h1>The Single Layer Perceptron</h1>

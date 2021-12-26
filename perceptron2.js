@@ -1,12 +1,12 @@
 function rand(){
     // for some reason, initializing the weights to be from [0.5 to 1] makes the network converge almost every time
-    // initializing the weights with a range of [0 to 1] makes it 80% reliable. 
+    // initializing the weights with a range of [0 to 1] makes it 80% reliable.
     return Math.random() /2 + 0.5;
 }
 
 function randb(){
     // initializing bias as -1 is much more reliable than 1
-    return -1;
+    return Math.random();
 }
 
 function rnd(x){
@@ -14,20 +14,20 @@ function rnd(x){
 }
 
 function act(x){
-    //return sig(x);
+    // return sig(x);
     return tanh(x);
 }
 
 function dact(x){
-    //return dsig(x);
+    // return dsig(x);
     return dtanh(x);
 }
 
-function sig(x){ 
-    return 1 / (1 + Math.exp(-x)); 
+function sig(x){
+    return 1 / (1 + Math.exp(-x));
 }
-function dsig(x){ 
-    return x * (1-x); 
+function dsig(x){
+    return x * (1-x);
 }
 
 function tanh(x){
@@ -82,11 +82,11 @@ function forward(x1, x2){
     a2 = act(x1 * w12 + x2 * w22 + b2);
     a3 = act(a1 * w31 + a2 * w32 + b3);
 
-    if(isNaN(a1) || isNaN(a2) || isNaN(a3)) 
+    if(isNaN(a1) || isNaN(a2) || isNaN(a3))
         throw "NaN";
 }
 
-var lr = 0.05;
+var lr = 0.03;
 function backprop(x1, x2, t){
     // adjust node 3 (output node)
     w31 += lr * (t - a3) * dact(a3) * a1;
@@ -105,12 +105,28 @@ function backprop(x1, x2, t){
 }
 
 function train(input, target){
-    for(var e = 0; e < 5000; e++){
+    let maxEpochs = 50000;
+    let goodEnough = 0.003;
+    let costInterval = 10;
+
+    let costs = [];
+    for(var e = 0; e < maxEpochs; e++){
+        var avgcost = 0;
         for(var t = 0; t < 4; t++){
             forward(input[t][0], input[t][1]);
             backprop(input[t][0], input[t][1], target[t]);
+
+            if(e % costInterval == 0){
+                avgcost += Math.pow(a3 - target[t], 2);
+            }
         }
+        if(e % costInterval == 0)
+        costs.push(avgcost/4);
+        
+        if(e % costInterval == 0 && avgcost/4 < goodEnough)
+            return costs;
     }
+    return costs;
 }
 
 function test(input){
@@ -152,24 +168,24 @@ var targetOR = [0, 1, 1, 1];
 var targetAND = [0, 0, 0, 1];
 
 function startPerceptron(targetOutput){
+    var costs = [];
     var done = false;
+
     while(!done){
         try {
             reset();
-            train(input, targetOutput);
+            costs = train(input, targetOutput);
             done = true;
         }
         catch(e) {
             // sometimes the weight values grow very large (> 700) which causes the tanh function to output NaN
             // since tanh is implemented with exponent functions the values get so large that it becomes NaN
-            // this only happens sometimes, the only 
+            // this only happens sometimes, the only way i know to fix it is to restart
             console.log("we done goofed");
         }
     }
-    
+
     var results = test(input);
     //printWB();
-    return results;
+    return [results, costs];
 }
-
-// console.log(startPerceptron(targetXOR));
