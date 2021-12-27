@@ -9,44 +9,22 @@ function randb(){
     return Math.random();
 }
 
-function rnd(x){
-    return Math.round(x * 1000)/1000;
-}
+function rnd(x){ return Math.round(x * 1000)/1000; }
 
-function act(x){
-    // return sig(x);
-    return tanh(x);
-}
+// function sig(x){ return 1 / (1 + Math.exp(-x)); }
+// function dsig(x){ return x * (1-x); }
 
-function dact(x){
-    // return dsig(x);
-    return dtanh(x);
-}
-
-function sig(x){
-    return 1 / (1 + Math.exp(-x));
-}
-function dsig(x){
-    return x * (1-x);
-}
-
-function tanh(x){
-    var a = (Math.exp(x) - Math.exp(-x)) / (Math.exp(x) + Math.exp(-x));
-    return a;
-}
-function dtanh(x){
-    var a = 1 - (x * x);
-    return a;
-}
+function tanh(x){ return (Math.exp(x) - Math.exp(-x)) / (Math.exp(x) + Math.exp(-x)); }
+function dtanh(x){ return 1 - (x * x); }
 
 //neuron 1
-var w11, w21, b1;
+let w11, w21, b1;
 
 //neuron 2
-var w12, w22, b2;
+let w12, w22, b2;
 
 //neuron 3
-var w31, w32, b3;
+let w31, w32, b3;
 
 function reset(){
     //neuron 1
@@ -63,77 +41,65 @@ function reset(){
     b3 = randb();
 }
 
-function resetCase(){
-    // w11= 0.7019069706058758
-    // w21= 0.8354328214486761
-    // b1 = -1
-    // w12= 0.1989666617037753
-    // w22= 0.9585336532101392
-    // b2 = -1
-    // w31= 0.8876327447188233
-    // w32= 0.5915548210791177
-    // b3 = -1
-}
-
-var a1, a2, a3 = 0;
-
 function forward(x1, x2){
-    a1 = act(x1 * w11 + x2 * w21 + b1);
-    a2 = act(x1 * w12 + x2 * w22 + b2);
-    a3 = act(a1 * w31 + a2 * w32 + b3);
+    const a1 = tanh(x1 * w11 + x2 * w21 + b1);
+    const a2 = tanh(x1 * w12 + x2 * w22 + b2);
+    const a3 = tanh(a1 * w31 + a2 * w32 + b3);
 
     if(isNaN(a1) || isNaN(a2) || isNaN(a3))
         throw "NaN";
+
+    return [a1, a2, a3];
 }
 
-var lr = 0.03;
-function backprop(x1, x2, t){
+function backprop(x1, x2, a, t){
+    let lr = 0.03;
+    
     // adjust node 3 (output node)
-    w31 += lr * (t - a3) * dact(a3) * a1;
-    w32 += lr * (t - a3) * dact(a3) * a2;
-    b3 += lr * (t - a3) * dact(a3);
+    w31 += lr * (t - a[2]) * dtanh(a[2]) * a[0];
+    w32 += lr * (t - a[2]) * dtanh(a[2]) * a[1];
+    b3 += lr * (t - a[2]) * dtanh(a[2]);
 
     // adjust node 1
-    w11 += lr * (t - a3) * dact(a3) * w31 * dact(a1) * x1;
-    w21 += lr * (t - a3) * dact(a3) * w31 * dact(a1) * x2;
-    b1 += lr * (t - a3) * dact(a3) * w31 * dact(a1);
+    w11 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]) * x1;
+    w21 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]) * x2;
+    b1 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]);
 
     //adjust node 2
-    w21 += lr * (t - a3) * dact(a3) * w32 * dact(a2) * x1;
-    w22 += lr * (t - a3) * dact(a3) * w32 * dact(a2) * x2;
-    b2 += lr * (t - a3) * dact(a3) * w32 * dact(a2);
+    w21 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]) * x1;
+    w22 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]) * x2;
+    b2 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]);
 }
 
 function train(input, target){
-    let maxEpochs = 50000;
-    let goodEnough = 0.003;
-    let costInterval = 10;
+    const maxEpochs = 50000;
+    const goodEnough = 0.003;
+    const costInterval = 10;
 
-    let costs = [];
-    for(var e = 0; e < maxEpochs; e++){
-        var avgcost = 0;
-        for(var t = 0; t < 4; t++){
-            forward(input[t][0], input[t][1]);
-            backprop(input[t][0], input[t][1], target[t]);
+    const costs = [];
+    for(let e = 0; e < maxEpochs; e++){
+        let avgcost = 0;
+        for(let t = 0; t < 4; t++){
+            let a = forward(input[t][0], input[t][1]);
+            backprop(input[t][0], input[t][1], a, target[t]);
 
-            if(e % costInterval == 0){
-                avgcost += Math.pow(a3 - target[t], 2);
-            }
+            if(e % costInterval == 0)
+                avgcost += Math.pow(a[2] - target[t], 2);
         }
-        if(e % costInterval == 0)
-        costs.push(avgcost/4);
-        
-        if(e % costInterval == 0 && avgcost/4 < goodEnough)
-            return costs;
+        if(e % costInterval == 0){
+            costs.push(avgcost/4);
+            if(avgcost/4 < goodEnough)
+                return costs;
+        }
     }
     return costs;
 }
 
 function test(input){
-    var outputs = [];
-    for(var t = 0; t < 4; t++){
-        forward(input[t][0], input[t][1]);
-        outputs.push(rnd(a3));
+    const outputs = [];
+    for(let t = 0; t < 4; t++){
+        let a = forward(input[t][0], input[t][1]);
+        outputs.push(rnd(a[2]));
     }
     return outputs;
 }
@@ -156,20 +122,20 @@ function printWB(){
     console.log("  b3 : " + b3 );
 }
 
-var input = [
+let input = [
     [0, 0],
     [0, 1],
     [1, 0],
     [1, 1]
 ]
 
-var targetXOR = [0, 1, 1, 0];
-var targetOR = [0, 1, 1, 1];
-var targetAND = [0, 0, 0, 1];
+let targetXOR = [0, 1, 1, 0];
+let targetOR = [0, 1, 1, 1];
+let targetAND = [0, 0, 0, 1];
 
 function startPerceptron(targetOutput){
-    var costs = [];
-    var done = false;
+    let costs = [];
+    let done = false;
 
     while(!done){
         try {
@@ -185,7 +151,6 @@ function startPerceptron(targetOutput){
         }
     }
 
-    var results = test(input);
-    //printWB();
+    let results = test(input);
     return [results, costs];
 }

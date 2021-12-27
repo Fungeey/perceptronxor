@@ -1,7 +1,6 @@
 :root {
-    --darkgreen: #608a5a;
+    --darkgreen: #418237;
     --green: #9dda92;
-    /* --green2: #A9ED9D; */
     --grey: #f2f2f2;
     --darkergrey: #e1e1e1;
     --darkerergrey: #b3b1b1;
@@ -9,17 +8,12 @@
     --corner: 10px;
 }
 
-/* 87E89F turqoise */
-
 ::selection {
     background: var(--darkergrey);
 }
 
 *{
-    /* font-family: 'Varela Round', sans-serif; */
-    /* font-family: 'Poppins', sans-serif; */
-    /* font-family: 'Cabin', sans-serif; */
-    font-family: 'Overpass', sans-serif;
+    font-family:'Overpass', sans-serif, Helvetica;
     font-size: 16px;
     color: var(--darkgrey);
 }
@@ -41,7 +35,7 @@ h1{
     padding: 0 0.5rem;
     font-weight: normal;
     font-size: 25px;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     position:relative;
     background: var(--green);
     border-radius: 1rem;
@@ -51,28 +45,6 @@ mark{
     background: var(--darkergrey);
     padding:0 0.2em;
     border-radius: 1rem;
-}
-
-.hDot{
-    width:2rem;
-    height:2rem;
-    position:absolute;
-    left:-5rem; /* -2rem for main, -2 for width, -1 for spacing*/
-    top: -5px;
-    border-radius: 3rem;
-    background-color: var(--green);
-}
-
-#contents{
-    height:100%;
-    position:sticky;
-    background: var(--grey);
-    flex-grow:1;
-    padding:2rem;
-}
-
-#mainColumn{
-    flex-grow: 3;
 }
 
 #main{
@@ -112,7 +84,6 @@ mark{
     top:0;
     z-index: 100;
     border-radius: var(--corner);
-    background: var(--green);
 }
 
 h5{
@@ -137,21 +108,17 @@ h5{
         margin:0;
     }
     #main {
-        padding: 30px 1rem;
+        padding: 30px 1.5rem;
     }
     .titleText{
-        padding: 30px 1rem;
+        padding: 30px 1.5rem;
     }
-    #contents{
-        visibility: hidden;
+    #backtotop{
+        display: none;
     }
 }
 
-
-
-
-
-.flexRow{
+.simulationHolder{
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -159,33 +126,6 @@ h5{
     flex-wrap: wrap;
     gap:30px;
     flex-direction: row;
-}
-
-.flexColumn{
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: column;
-    margin-top: 1em;
-}
-
-#booleanInput{
-    margin: auto;
-    margin-top: 1em;
-    width: 70%;
-    border-radius: var(--corner);
-    border:none;
-    outline: none;
-    padding: 5px;
-}
-
-#booleanInput:focus{
-    box-shadow: 5px 5px 10px var(--darkergrey);
-}
-
-#truthTableContainer{
-    margin: auto;
-    display: block;
 }
 
 .truthtable {
@@ -244,10 +184,6 @@ th, td{
     border-radius: 0px;
 }
 
-/* :focus{
-    outline: solid var(--darkgrey);
-} */
-
 .tableButton:hover{
     text-decoration: underline;
 }
@@ -263,8 +199,16 @@ th, td{
 }
 
 #startNN:hover{
-    background: var(--green);
-    box-shadow: 5px 5px 10px var(--darkergrey);
+    animation: darkerGreyToGreen 0.1s forwards; 
+}
+
+@keyframes darkerGreyToGreen {
+    from { background: var(--darkergrey); 
+        box-shadow: none;
+    }
+    to   { background: var(--green); 
+        box-shadow: 5px 5px 10px var(--darkergrey);
+    }
 }
 
 #errorchart{
@@ -275,7 +219,6 @@ th, td{
 li{
     line-height: 160%;
 }
-
 
 .imgSource, .imgSource > u{
     margin:auto;
@@ -288,16 +231,18 @@ li{
 .focusp{
     margin:auto;
     background: var(--green);
-    border-radius: var(--corner);
+    border-radius: 1rem;
     padding: 0 0.5em;
     margin:0.5em auto 0.5em;
 }
 
 .problemblock{
     margin:auto;
+    margin-bottom: 0.5rem;
     width:90%;
+    padding:0 0 0 1em;
     padding-left: 1em;
-    border-left:3px solid var(--darkerergrey)
+    border-left: 3px solid var(--darkerergrey);
 }
 
 #backtotop{
@@ -308,10 +253,37 @@ li{
     position:absolute;
     bottom:0;
     right:-5rem;
-    background: var(--darkergrey);
+    background: var(--grey);
+    box-shadow: 5px 5px 10px var(--darkergrey);
 }
 
-.prettyprint{
-    margin:auto;
-    border-radius: var(--corner);
+#backtotop:hover{
+    animation: greyToGreen 0.1s forwards; 
+}
+
+@keyframes greyToGreen {
+    from { background: var(--grey); }
+    to   { background: var(--green); }
+}
+
+li{
+    margin-left:1rem;
+}
+
+a:hover{
+    color: var(--darkgreen);
+}
+
+.arrow{
+    width:1rem;
+    height:1rem;
+    opacity: 0.75;
+    position:absolute;
+    right:0;
+    top:-1.2rem;
+    visibility: hidden;
+}
+
+#gitlogo:hover + .arrow{
+    visibility: visible;
 }

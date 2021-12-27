@@ -3,23 +3,23 @@
 const grey = "#f2f2f2";
 const darkgrey = "#b3b1b1";
 const green = "#9dda92";
-const darkgreen = "#44773c";
+const darkgreen = "#418237";
 
-var data = [
+let data = [
     [0],
     [1],
     [1],
     [0]
 ];
 
-var buttons = [];
-for(var i = 0; i < 4; i++){
-    var button = document.getElementById("b" + i);
+let buttons = [];
+for(let i = 0; i < 4; i++){
+    let button = document.getElementById("b" + i);
 
     if(button.innerText === '0')
         button.firstChild.style.background = grey;
-
-    buttons.push(row);
+    
+    buttons.push(button);
 }
 
 function toggleValue(button, num){
@@ -34,31 +34,28 @@ function toggleValue(button, num){
     }
 }
 
-var outputs = [];
-for(var i = 0; i < 4; i++){
-    var row = document.getElementById("nn" + i);
-    outputs.push(row);
+let outputs = [];
+for(let i = 0; i < 4; i++){
+    outputs.push(document.getElementById("nn" + i));
 }
 
-var runStats = document.getElementById("runStats");
+const runStats = document.getElementById("runStats");
 function startTrain(){
     let start = Date.now();
-
-    let results = startPerceptron(data);
-
-    outputs.forEach((o, i) => {
-        o.innerText = results[0][i];
-        o.style.opacity = 0.5;
-    });
-     
+        let results = startPerceptron(data);
     let end = Date.now();
     runStats.innerText = results[1].length * 10 + " iterations in " + (end - start) + " ms";
 
     displayChart(results);
-    startFade();
+    startFade(results);
 }
 
-function startFade(){
+function startFade(results){
+
+    outputs.forEach((o, i) => {
+        o.innerText = results[0][i];
+    });
+
     let opacity = 0;
     function fadeIn() {
         if (opacity < 1) {
@@ -76,49 +73,36 @@ function startFade(){
 
 const chartElement = document.getElementById('errorchart');
 const chart2d = chartElement.getContext('2d');
-var errorchart = new Chart(chart2d, {
-    type: 'line',
-    data: {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        datasets: [{
-            label: 'Mean Squared Cost',
-            data: [],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        pointRadius: 2,
-        borderWidth: 10,
-        fillColor: darkgrey,
-        pointBackgroundColor: darkgrey,
-        borderColor: darkgrey
-    }
-});
+let errorChart = setChartValues([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], []);
 
 function displayChart(results){
-    if(errorchart != undefined)
-        errorchart.destroy();
+    if(errorChart != undefined)
+        errorChart.destroy();
         
-    setChartValues(results);
+    errorChart = setChartValues(Array.from(results[1].keys()).map(k => k * 10), results[1]);
 }
 
-function setChartValues(results){
-    errorchart = new Chart(chart2d, {
+function setChartValues(labels, data){
+    return new Chart(chart2d, {
         type: 'line',
         data: {
-            labels: Array.from(results[1].keys()).map(k => k * 10),
+            labels: labels,
             datasets: [{
                 label: 'Mean Squared Cost',
-                data: results[1],
+                data: data,
                 borderWidth: 1
             }]
         },
         options: {
             pointRadius: 2,
             borderWidth: 10,
-            fillColor: darkgrey,
-            pointBackgroundColor: darkgrey,
-            borderColor: darkgrey
+            fillColor: darkgreen,
+            pointBackgroundColor: darkgreen,
+            borderColor: darkgreen
         }
     });
+}
+
+function scrollToTop(){
+    window.scroll(0, 0);
 }
