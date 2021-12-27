@@ -4,116 +4,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bitter&family=Overpass&family=Cabin:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Overpass&family=Cabin:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 
 </head>
 <body>
-
+    <!-- <div id = "contents">
+        <h1>Table of Contents</h1>
+        <p></p>
+    </div> -->
     <!-- <div id = "leftfloater">
         <b>Aaron Lee</b> <br> is adding unnecessary features to this website.
     </div> -->
-    <div class = "titleText">      
-        Boolean Algebra Neural Network
 
-        <div id = "subtitle">
-            <h5>Aaron Lee, 2021 </h5>
-            <a href = "https://github.com/Fungeey/perceptronxor"><img src = "img/git.png" style = "width:1rem;height:1rem;"></a>
-        </div>
-    </div>
-    <div id="main">
-        <h1>Interactive Simulation</h1>
-        <p>This is a neural network that uses a truth table as training data. After it has trained, it will converge on an 
-            algorithm that will accuratly implement the desired boolean algebra function.
-        </p>
-
-        <br><br>
-
-        <div class = "flexRow">
-            <table class = "truthtable">
-                <tr>
-                    <th>A</th>
-                    <th>B</th>
-                    <th>f</th>
-                    <th>NN</th>
-                </tr>
-                <tr>
-                    <td>0</td>
-                    <td>0</td>
-                    <td><button id = "b0" class = "tableButton" onclick="toggleValue(this, 0)"><div class = 'buttonDot'>0</div></td>
-                    <td id = "nn0">. . .</td>
-                </tr>
-                <tr>
-                    <td>0</td>
-                    <td><div class = "tableDot">1</div></td>
-                    <td><button id = "b1" class = "tableButton" onclick = "toggleValue(this, 1)"><div class = 'buttonDot'>1</div></td>
-                    <td id = "nn1">. . .</td>
-                </tr>
-                <tr>
-                    <td><div class = "tableDot">1</div></td>
-                    <td>0</td>
-                    <td><button id = "b2" class = "tableButton" onclick="toggleValue(this, 2)"><div class = 'buttonDot'>1</div></button></td>
-                    <td id = "nn2">. . .</td>
-                </tr>
-                <tr>
-                    <td><div class = "tableDot">1</div></td>
-                    <td><div class = "tableDot">1</div></td>
-                    <td><button id = "b3" class = "tableButton" onclick="toggleValue(this, 3)"><div class = 'buttonDot'>0</div></button></td>
-                    <td id = "nn3">. . .</td>
-                </tr>
-            </table>
-
-            <div>
-                <br>
-                <p style = "width: 300px; text-align: center">
-                    Click on the outputs in the 'f' column to change them.
-                </p>
-                <br>
-                <button id = "startNN" onclick = "startTrain()">Start!</button>
-                <p id = "runStats" style = "text-align:center;margin-top:0.5rem;"></p>
+    <div id="mainColumn">
+        <div class = "titleText">      
+            boolean algebra neural network
+            <div id = "subtitle">
+                <h5>Aaron Lee, 2021 </h5>
+                <a href = "https://github.com/Fungeey/perceptronxor"><img src = "img/git.png" style = "width:1rem;height:1rem;"></a>
             </div>
         </div>
+        <div id="main">
+            <h1>interactive simulation</h1>
+            <p>This is a neural network that uses a truth table as training data. After it has trained, it will converge on an 
+                algorithm which can accurately implement the desired boolean algebra function.
+            </p>
+    
+            <br>
+    
+            <div class = "flexRow">
+                <table class = "truthtable">
+                    <tr>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>f</th>
+                        <th>NN</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><button id = "b0" class = "tableButton" onclick="toggleValue(this, 0)"><div class = 'buttonDot'>0</div></td>
+                        <td id = "nn0">. . .</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td><div class = "tableDot">1</div></td>
+                        <td><button id = "b1" class = "tableButton" onclick = "toggleValue(this, 1)"><div class = 'buttonDot'>1</div></td>
+                        <td id = "nn1">. . .</td>
+                    </tr>
+                    <tr>
+                        <td><div class = "tableDot">1</div></td>
+                        <td>0</td>
+                        <td><button id = "b2" class = "tableButton" onclick="toggleValue(this, 2)"><div class = 'buttonDot'>1</div></button></td>
+                        <td id = "nn2">. . .</td>
+                    </tr>
+                    <tr>
+                        <td><div class = "tableDot">1</div></td>
+                        <td><div class = "tableDot">1</div></td>
+                        <td><button id = "b3" class = "tableButton" onclick="toggleValue(this, 3)"><div class = 'buttonDot'>0</div></button></td>
+                        <td id = "nn3">. . .</td>
+                    </tr>
+                </table>
+    
+                <div>
+                    <br>
+                    <p style = "width: 300px; text-align: center">
+                        Click on the outputs in the 'f' column to change them.
+                    </p>
+                    <br>
+                    <button id = "startNN" onclick = "startTrain()">Start!</button>
+                    <p id = "runStats" style = "text-align:center;margin-top:0.5rem;"></p>
+                </div>
+            </div>
+    
+            <br>
+            <canvas id="errorchart"></canvas>
+    
+            <br>
+            <p>After clicking start, the network will output values that (should) closely match the desired 'f' column.
+                The accuracy of the neural network is measured by a <b>cost function</b>, which is minimized over the many iterations.
+            </p>
+            <br>
 
-        <br><br>
+            <h1>a neural network</h1>
+            <p>The perceptron is an artifical neuron invented in the 60s which can be used to solve binary classification problems (classifying data into one of two types).
+                In the case of the boolean algebra expression, the network classifies the inputs (A and B) as either true or false.
+            </p>
+            <br>
+            <p>Here's the neural network structure that I used above: </p>
+            <br>
+    
+            <img src="img/mlp.png" style = "width:70%;margin:auto;">
+            <a href ="https://www.researchgate.net/figure/Topology-of-ANN-used-to-solve-logic-XOR-problem_fig1_228939274" class = "imgSource">Photo by <u>researchgate.com</u></a>
+            <!-- <a href = "https://www.allaboutcircuits.com/technical-articles/how-to-perform-classification-using-a-neural-network-a-simple-perceptron-example/" class = "imgSource">Photo by <u>allaboutcircuits.com</u></a> -->
+    
+            <br>
+    
+            <p>The output of each node is a weighted sum of its inputs, plus a bias value:</p>
+            <p class = "focusp">a = Σwx + b</p>
+    
+            <p>Where a is the activation, w is the weight, x is the input, and b is the bias.
+                With only 3 neurons, the network already has 6 weights and 3 biases. These values are initially randomized, meaning the network
+                produces very inaccurate results to begin with.
+                <br>
+                <br>
+                Adjusting all of these values slightly 
+                with a process called <b>backpropagation</b> allows the network to find weights and biases that minimize it's cost (how wrong its prediction is).
+                By repeating this process thousands of times, the network learns to makes better predictions.
+            </p>
+            <br>
 
-        <canvas id="errorchart"></canvas>
+            <h1>the xor classification problem</h1>
+            <p>Most of the other logic gates like AND, OR, NAND, and NOR are trivial for the network to implement. XOR and XNOR which are much more difficult. 
+                This is because XOR and XNOR are complicated and usually implemented with a combination of multiple logic gates. For a neural network to 
+                be able to learn the combination of gates required, a minimum of 3 neurons is needed in the network. 
+            </p>
 
-        <br><br>
-        <p>After clicking start, the network will output values that (should) closely match the desired 'f' column.</p>
-        <br><br>
+            <br>
 
-        <h1>The Single Layer Perceptron</h1>
-        <p>The perceptron is an artifical neuron invented in the 60s which can be used to solve binary classification problems (classifying data into two types).
-            In the case of the truth table above, the input (A, B) is classified to be either true or false.
-        </p>
+            <h1>problems i ran into</h1>
+            <b>reliability</b> 
+            <div class = "problemblock">
+                <p>I struggled to make the network reliable: sometimes it would be completely wrong
+                    despite how many iterations I trained it for. Apparently this is because there are multiple local minimums that the network
+                    can get stuck in without being able to improve further.
+                    <br>
+                    I solved this by initializing the weights randomly with values from <mark>0.5 to 1</mark>, instead of <mark>0 to 1</mark>. Doing this greatly increased the
+                    chances that it would end up in the correct local minimum. <b style="font-weight:normal;color:var(--darkerergrey);font-size:smaller;">(is that cheating ??)</b>
+                </p>
+            </div>
 
-        <br>
+            <br>
+            <b>performance</b> 
+            <div class = "problemblock">
+                <p>
+                    The first implementation I made would only become accurate after 10 or 20 thousand iterations. 
+                    <br>
+                    I solved this by choosing to use the <i>tanh</i> activation function rather than the sigmoid function, which helped it converge much faster.
 
-        <img src="img/slperceptron.webp" style = "width:70%;margin:auto;">
-        <a href = "https://www.allaboutcircuits.com/technical-articles/how-to-perform-classification-using-a-neural-network-a-simple-perceptron-example/" class = "imgSource">Photo by <u>allaboutcircuits.com</u></a>
+                </p>
+            </div>
 
-        <br>
+            <br>
+            <h1>code</h1>
+            <p>Here is the code I wrote for this project. You can also view the <mark>github repository</mark> here.</p>
 
-        <p>The output of the perceptron is a weighted sum of the inputs plus a bias value:</p>
-        <p class = "focusp">a = (Σwx) + b</p>
-
-        <p>Where a is the activation, w is the weight, x is the input, and b is the bias.</p>
-
-
-        <br>
-
-        <h1>Code</h1>
-        <p>Here is the code I wrote for this project. You can also view the github repository here.</p>
-
-        <br>
-
-        <h1>Resources Used</h1>
-        <li><a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">3blue1brown's youtube series on neural networks</a></li>
-        <li><a href="https://towardsdatascience.com/implementing-the-xor-gate-using-backpropagation-in-neural-networks-c1f255b4f20d">An article by Siddhartha Dutta about backpropagation</a></li>
-        <li><a href="https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh">Daniel Shiffman's youtube series on neural networks</a></li>
-        <li><a href="http://yen.cs.stir.ac.uk/~kjt/techreps/pdf/TR148.pdf">This paper by Richard Bland about the XOR problem</a></li>
-        
+            <br>
+            <pre class="prettyprint">
+                function backprop(x1, x2, t){
+                // adjust node 3 (output node)
+                w31 += lr * (t - a3) * dact(a3) * a1;
+                w32 += lr * (t - a3) * dact(a3) * a2;
+                b3 += lr * (t - a3) * dact(a3);
+            
+                // adjust node 1
+                w11 += lr * (t - a3) * dact(a3) * w31 * dact(a1) * x1;
+                w21 += lr * (t - a3) * dact(a3) * w31 * dact(a1) * x2;
+                b1 += lr * (t - a3) * dact(a3) * w31 * dact(a1);
+            
+                //adjust node 2
+                w21 += lr * (t - a3) * dact(a3) * w32 * dact(a2) * x1;
+                w22 += lr * (t - a3) * dact(a3) * w32 * dact(a2) * x2;
+                b2 += lr * (t - a3) * dact(a3) * w32 * dact(a2);
+                }
+            </pre>
+            <br>
+    
+            <h1>resources</h1>
+            <li><a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">3blue1brown's youtube series on neural networks</a></li>
+            <li><a href="https://towardsdatascience.com/implementing-the-xor-gate-using-backpropagation-in-neural-networks-c1f255b4f20d">An article by Siddhartha Dutta about backpropagation</a></li>
+            <li><a href="https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh">Daniel Shiffman's youtube series on neural networks</a></li>
+            <li><a href="http://yen.cs.stir.ac.uk/~kjt/techreps/pdf/TR148.pdf">This paper by Richard Bland about the XOR problem</a></li>
+            
+            <button id="backtotop">up</button>
+        </div>
     </div>
 </body>
 <script src = "main.js"></script>

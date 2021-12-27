@@ -1,4 +1,5 @@
 :root {
+    --darkgreen: #608a5a;
     --green: #9dda92;
     /* --green2: #A9ED9D; */
     --grey: #f2f2f2;
@@ -16,16 +17,17 @@
 
 *{
     /* font-family: 'Varela Round', sans-serif; */
-    font-family: 'Bitter', serif;;
+    /* font-family: 'Poppins', sans-serif; */
     /* font-family: 'Cabin', sans-serif; */
-    /* font-family: 'Overpass', sans-serif; */
-    font-size: 17px;
+    font-family: 'Overpass', sans-serif;
+    font-size: 16px;
     color: var(--darkgrey);
 }
 
 body{
-    padding: 3%;
+    margin:0;
     padding-top: 4rem;
+    padding-bottom: 4rem;
 }
 
 p{
@@ -35,16 +37,20 @@ p{
 }
 
 h1{
-    margin:0px;
-    padding:0px;
-    font-weight: 700;
-    font-size: 20px;
+    margin:0 0 0 -0.5rem;
+    padding: 0 0.5rem;
+    font-weight: normal;
+    font-size: 25px;
     margin-bottom: 5px;
     position:relative;
+    background: var(--green);
+    border-radius: 1rem;
 }
 
-h1:hover{
-    text-decoration: underline;
+mark{
+    background: var(--darkergrey);
+    padding:0 0.2em;
+    border-radius: 1rem;
 }
 
 .hDot{
@@ -55,6 +61,18 @@ h1:hover{
     top: -5px;
     border-radius: 3rem;
     background-color: var(--green);
+}
+
+#contents{
+    height:100%;
+    position:sticky;
+    background: var(--grey);
+    flex-grow:1;
+    padding:2rem;
+}
+
+#mainColumn{
+    flex-grow: 3;
 }
 
 #main{
@@ -73,29 +91,9 @@ h1:hover{
     box-shadow: 5px 5px 10px var(--darkergrey);
 }
 
-@media only screen and (max-width: 550px) {
-    body{
-        padding: 0%;
-        margin:0;
-    }
-    #main {
-        padding: 30px 1rem;
-    }
-    .titleText{
-        padding: 30px 1rem;
-    }
- }
-
-hr{
-    margin:0px;
-    border: 1px solid var(--darkgrey);
-    border-radius: 1px;
-    opacity: 0.7;
-}
-
 .titleText{
     position: relative;
-    font-size: 40px;
+    font-size: 43px;
     font-weight: bold;
     margin:auto;
     max-width: 650px;
@@ -107,10 +105,14 @@ hr{
 }
 
 #subtitle{
-    margin-top:10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    position:sticky;
+    top:0;
+    z-index: 100;
+    border-radius: var(--corner);
+    background: var(--green);
 }
 
 h5{
@@ -128,6 +130,26 @@ h5{
     background: var(--grey);
     border-radius: var(--corner);
 }
+
+@media only screen and (max-width: 550px) {
+    body{
+        padding: 0;
+        margin:0;
+    }
+    #main {
+        padding: 30px 1rem;
+    }
+    .titleText{
+        padding: 30px 1rem;
+    }
+    #contents{
+        visibility: hidden;
+    }
+}
+
+
+
+
 
 .flexRow{
     width: 100%;
@@ -246,7 +268,7 @@ th, td{
 }
 
 #errorchart{
-    width: 30rem;
+    width:30rem;
     margin:auto;
 }
 
@@ -255,17 +277,12 @@ li{
 }
 
 
-u, .imgSource{
+.imgSource, .imgSource > u{
     margin:auto;
     text-align: center;
     margin-top: 7px;
     color: var(--darkerergrey);
     font-size: 13px;
-    text-decoration: none;
-}
-
-u{
-    text-decoration: underline;
 }
 
 .focusp{
@@ -274,4 +291,27 @@ u{
     border-radius: var(--corner);
     padding: 0 0.5em;
     margin:0.5em auto 0.5em;
+}
+
+.problemblock{
+    margin:auto;
+    width:90%;
+    padding-left: 1em;
+    border-left:3px solid var(--darkerergrey)
+}
+
+#backtotop{
+    width:3rem;
+    height:3rem;
+    border-radius: 1.5rem;
+    border:none;
+    position:absolute;
+    bottom:0;
+    right:-5rem;
+    background: var(--darkergrey);
+}
+
+.prettyprint{
+    margin:auto;
+    border-radius: var(--corner);
 }
