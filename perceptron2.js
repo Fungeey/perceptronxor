@@ -1,28 +1,15 @@
-function rand(){
-    // for some reason, initializing the weights to be from [0.5 to 1] makes the network converge almost every time
-    // initializing the weights with a range of [0 to 1] makes it 80% reliable.
-    return Math.random() /2 + 0.5;
-}
-
-function randb(){
-    // initializing bias as -1 is much more reliable than 1
-    return Math.random();
-}
-
-function rnd(x){ return Math.round(x * 1000)/1000; }
-
-// function sig(x){ return 1 / (1 + Math.exp(-x)); }
-// function dsig(x){ return x * (1-x); }
-
-function tanh(x){ return (Math.exp(x) - Math.exp(-x)) / (Math.exp(x) + Math.exp(-x)); }
-function dtanh(x){ return 1 - (x * x); }
+const rand = _ => Math.random() /2 + 0.5;
+const randb = _ => Math.random();
+const rnd = x => Math.round(x * 1000)/1000;
+// const sig = x => 1 / (1 + Math.exp(-x));
+// const dsig = x =>  x * (1-x);
+const tanh = x => (Math.exp(x) - Math.exp(-x)) / (Math.exp(x) + Math.exp(-x));
+const dtanh = x => 1 - (x * x);
 
 //neuron 1
 let w11, w21, b1;
-
 //neuron 2
 let w12, w22, b2;
-
 //neuron 3
 let w31, w32, b3;
 
@@ -56,19 +43,22 @@ function backprop(x1, x2, a, t){
     let lr = 0.03;
     
     // adjust node 3 (output node)
-    w31 += lr * (t - a[2]) * dtanh(a[2]) * a[0];
-    w32 += lr * (t - a[2]) * dtanh(a[2]) * a[1];
-    b3 += lr * (t - a[2]) * dtanh(a[2]);
+    let outputGradient = (t - a[2]) * dtanh(a[2]);
+    w31 += lr * outputGradient * a[0];
+    w32 += lr * outputGradient * a[1];
+    b3 += lr * outputGradient;
 
     // adjust node 1
-    w11 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]) * x1;
-    w21 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]) * x2;
-    b1 += lr * (t - a[2]) * dtanh(a[2]) * w31 * dtanh(a[0]);
+    let hiddenGradient1 = outputGradient * w31 * dtanh(a[0]);
+    w11 += lr * hiddenGradient1 * x1;
+    w21 += lr * hiddenGradient1 * x2;
+    b1 += lr * hiddenGradient1;
 
     //adjust node 2
-    w21 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]) * x1;
-    w22 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]) * x2;
-    b2 += lr * (t - a[2]) * dtanh(a[2]) * w32 * dtanh(a[1]);
+    let hiddenGradient2 = outputGradient * w32 * dtanh(a[1]);
+    w21 += lr * hiddenGradient2 * x1;
+    w22 += lr * hiddenGradient2 * x2;
+    b2 += lr * hiddenGradient2;
 }
 
 function train(input, target){
@@ -152,5 +142,8 @@ function startPerceptron(targetOutput){
     }
 
     let results = test(input);
+    console.log(results);
     return [results, costs];
 }
+
+startPerceptron(targetXOR);
