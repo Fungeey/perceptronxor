@@ -130,7 +130,8 @@
                 <br><br>
                 I read <a href="https://stats.stackexchange.com/questions/330559/why-is-tanh-almost-always-better-than-sigmoid-as-an-activation-function">here</a>
                 that using the <mark>tanh</mark> activation function rather than the <mark>sigmoid</mark> function lets the network learn faster.
-                After making those changes my network could reach an acceptable accuracy within 4 to 5 thousand iterations.
+                I also used <mark>web workers</mark> to put all of the computation on a separate thread and increased the number of hidden nodes from 2 to 3.
+                After making those changes, my network can reach an acceptable accuracy within 2 to 4 thousand iterations. 
             </p>
         </div>
         <br>
@@ -159,5 +160,5 @@
     </div>
 </body>
 <script src = "main.js"></script>
-<script src = "perceptron3.js"></script>
+<script src = "perceptron.js"></script>
 </html>

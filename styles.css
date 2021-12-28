@@ -287,8 +287,3 @@ a:hover{
 #gitlogo:hover + .arrow{
     visibility: visible;
 }
-
-.emgithub-container{
-    width:100%;
-    ;
-}
